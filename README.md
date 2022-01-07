@@ -18,6 +18,7 @@ Aims to make it easier to log, when I'm working for a given employer and generat
 - MSSQL
 - .Net 6
 - Valid Active Directory Tenant - [Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
+  - Feel free to contact me for more details on how to do this 
 
 ## Installation 
 1. Clone the repository 
