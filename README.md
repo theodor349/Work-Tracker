@@ -29,3 +29,6 @@ Aims to make it easier to log, when I'm working for a given employer and generat
 
 # Contribute
 If you want to help out, just ask 😊
+
+# Extra Info
+This project is part of the 2022 [#CSharpChallenge](https://twitter.com/search?q=%23csharpchallenge%20%20%40IAmTimCorey&src=typed_query&f=top) created by @TimCorey, that encourage people to code their own projects.
