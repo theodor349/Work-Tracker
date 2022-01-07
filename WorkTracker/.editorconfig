@@ -1,0 +1,9 @@
+﻿[*.cs]
+
+# CS8603: Possible null reference return.
+dotnet_diagnostic.CS8603.severity = suggestion
+
+# CA2016: Forward the 'CancellationToken' parameter to methods
+dotnet_diagnostic.CA2016.severity = silent
+
+csharp_style_namespace_declarations = block_scoped 

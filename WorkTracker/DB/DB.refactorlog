@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="4b32b57e-3325-4902-8e2a-feda1c13be34" ChangeDateTime="12/28/2021 18:06:53">
+    <Property Name="ElementName" Value="[dbo].[WorkEntry].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkEntry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="29fefea9-de8c-4ad5-ab7d-6d41a5352683" ChangeDateTime="12/29/2021 15:12:48">
+    <Property Name="ElementName" Value="[dbo].[WorkEntry].[Start]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkEntry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StartTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ecc90df8-46c0-44f7-8a8c-6583b051be39" ChangeDateTime="12/29/2021 15:12:51">
+    <Property Name="ElementName" Value="[dbo].[WorkEntry].[End]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkEntry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EndTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="808ddd3f-0b5d-4e8a-a7e0-e19c1e7527b3" ChangeDateTime="01/03/2022 18:48:18">
+    <Property Name="ElementName" Value="[dbo].[WorkTimeStatement].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkTimeStatement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmployerId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ed0396a0-9dd1-4b83-b6e9-02fb1a97d645" ChangeDateTime="01/03/2022 18:51:20">
+    <Property Name="ElementName" Value="[dbo].[WorkTimeStatement].[Total]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkTimeStatement]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TotalHandedIn" />
+  </Operation>
+</Operations>
