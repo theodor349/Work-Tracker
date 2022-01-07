@@ -1,20 +1,31 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Work Tracker 
+The aim of the app is to make it easier to log when I am working for a given employer, and generate the invoice that I have to handin every month.
+
+## Key Features
+ * Enter when I am working and for which employer, with Start/Stop buttons
+ * Generate an invoice for a given month and employer
+ * Keep track of how many hours I have invoice, to make sure I do not invoice too much nore to little
+
+## Roadmap
+- [x] Create Backend
+- [ ] Create Frontend
+  - [ ]  Setup Communication with API
+  - [ ]  Draft UI
+  - [ ]  Link UI to Backend
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Prerequisites 
+- MSSQL
+- .Net 6
+- Valid Active Directory Tenant - [Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Installation 
+1. Clone the repository 
+2. Pubish database project found at `WorkTracker\DB` to a database
+3. Update `appsettings.json` found at `WorkTracker\Backend\API\appsettings.json`
+   - Setup `connectionstring` to point to the database 
+   - Setup `AzureAd` to point at a valid Azure Active Application - [Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in)
+4. Set the `API` project as `startup-project` and press `F5`
 
 # Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+If you want to help out, just ask 😊
