@@ -1,10 +1,10 @@
 # Work Tracker 
-The aim of the app is to make it easier to log when I am working for a given employer, and generate the invoice that I have to handin every month.
+Aims to make it easier to log, when I'm working for a given employer and generate the invoice that I have to hand in every month.
 
 ## Key Features
- * Enter when I am working and for which employer, with Start/Stop buttons
+ * Enter when I'm working and for which employer, with Start/Stop buttons
  * Generate an invoice for a given month and employer
- * Keep track of how many hours I have invoice, to make sure I do not invoice too much nore to little
+ * Keep track of how many hours I have invoiced, to make sure I do not invoice too much nore too little
 
 ## Roadmap
 - [x] Create Backend
