@@ -23,10 +23,10 @@ Aims to make it easier to log, when I'm working for a given employer and generat
 ## Installation 
 1. Clone the repository 
 2. Pubish database project found at `WorkTracker\DB` to a database
-3. Update `appsettings.json` found at `WorkTracker\Backend\API\appsettings.json`
+3. Update `appsettings.json` found at `WorkTracker\Backend\API\appsettings.json` and `WorkTracker\Frontend\BlazorClient\wwwroot\appsettings.json`
    - Setup `connectionstring` to point to the database 
    - Setup `AzureAd` to point at a valid Azure Active Application - [Guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in)
-4. Set the `API` project as `startup-project` and press `F5`
+4. Set the `API` and `BlazorClient` projects as `startup-project` and press `F5`
 
 # Contribute
 If you want to help out, just ask 😊
