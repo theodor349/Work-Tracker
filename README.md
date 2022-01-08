@@ -9,7 +9,7 @@ Aims to make it easier to log, when I'm working for a given employer and generat
 ## Roadmap
 - [x] Create Backend
 - [ ] Create Frontend
-  - [ ]  Setup Communication with API
+  - [x]  Setup Communication with API
   - [ ]  Draft UI
   - [ ]  Link UI to Backend
 
