@@ -362,3 +362,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /WorkTracker/Backend/API/Files/TimeSheets
 /WorkTracker/Backend/API/Files/Images/Signatures
+/WorkTracker/Frontend/BlazorClient/wwwroot/appsettings.development.json
