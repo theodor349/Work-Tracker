@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+@inject HttpClient Http
+
+<PageTitle>Employers</PageTitle>
+
+<h1>Employers</h1>
+
+<p>This component demonstrates fetching employer data from the server.</p>
+
+@if (employers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>UserId</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employer in employers)
+            {
+                <tr>
+                    <td>@employer.Id</td>
+                    <td>@employer.Name</td>
+                    <td>@employer.UserId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<EmployerModel>? employers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employers = await Http.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
+    }
+}
