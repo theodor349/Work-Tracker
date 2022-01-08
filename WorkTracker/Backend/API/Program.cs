@@ -7,7 +7,21 @@ using Shared;
 using TimeSheetGeneration;
 using WorkTracker;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+// CORS
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin();
+                          builder.AllowAnyMethod();
+                          builder.AllowAnyHeader();
+                      });
+});
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -34,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
