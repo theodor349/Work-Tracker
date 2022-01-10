@@ -32,8 +32,8 @@ namespace API.Controllers
             return data;
         }
 
-        // GET api/<WorkEntryController>/5/At
-        [HttpGet("{employerId}/At{startDate}")]
+        // GET api/<WorkEntryController>/{employerId}/At
+        [HttpGet("{employerId}/At={startDate}")]
         public async Task<WorkEntryModel> GetAt(Guid employerId, DateTime startDate)
         {
             var data = await _mediator.Send(new GetWorkEntryByStartTimeQuery(employerId, startDate, UserId));

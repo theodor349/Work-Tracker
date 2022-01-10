@@ -67,5 +67,18 @@ namespace DataAccess.Implementations
             //IReadOnlyList<InvoiceModel> res = data.Cast<InvoiceModel>().ToList();
             return Task.FromResult(res);
         }
+
+        public Task<IReadOnlyList<InvoiceModel>> GetInvoicesCreatedBetweenAsync(Guid employerId, DateTime startDate, DateTime endDate)
+        {
+            var data = _sql.LoadDataInTransaction<InvoiceDBModel, object>(StoredProcedure.spInvoice_GetCreatedBetween, new { employerId, startDate, endDate });
+            var data2 = new List<InvoiceModel>();
+            foreach (var item in data)
+            {
+                data2.Add(item);
+            }
+            IReadOnlyList<InvoiceModel> res = data2;
+            //IReadOnlyList<InvoiceModel> res = data.Cast<InvoiceModel>().ToList();
+            return Task.FromResult(res);
+        }
     }
 }

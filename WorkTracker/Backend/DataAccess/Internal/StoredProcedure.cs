@@ -25,4 +25,5 @@ public enum StoredProcedure
     spInvoice_Update,
     spInvoice_Delete,
     spInvoice_GetBetween,
+    spInvoice_GetCreatedBetween,
 }

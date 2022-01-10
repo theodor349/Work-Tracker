@@ -83,6 +83,7 @@
     <Build Include="dbo\StoredProcedures\Invoice\spInvoice_Delete.sql" />
     <Build Include="dbo\StoredProcedures\Employer\spEmployer_GetBalance.sql" />
     <Build Include="dbo\StoredProcedures\Invoice\spInvoice_GetBetween.sql" />
+    <Build Include="dbo\StoredProcedures\Invoice\spInvoice_GetCreatedBetween.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DB.refactorlog" />
