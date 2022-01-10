@@ -23,4 +23,17 @@ namespace WorkTracker.Handlers
             return data;
         }
     }
+
+    public class GetInvoicesCreatedBetweenQueryHandler : GenericEmployerAuthorizedRequestHandler<GetInvoicesCreatedBetweenQuery, IReadOnlyList<InvoiceModel>, IUnitOfWork>
+    {
+        public GetInvoicesCreatedBetweenQueryHandler(IUnitOfWork unitOfWork, IMediator mediator) : base(unitOfWork, mediator)
+        {
+        }
+
+        internal override async Task<IReadOnlyList<InvoiceModel>> HandleTransaction(GetInvoicesCreatedBetweenQuery request, CancellationToken cancellationToken)
+        {
+            var data = await _unitOfWork.Invoices.GetInvoicesCreatedBetweenAsync(request.EmployerId, request.StartDate, request.EndDate);
+            return data;
+        }
+    }
 }
