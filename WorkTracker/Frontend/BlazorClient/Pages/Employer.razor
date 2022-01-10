@@ -1,12 +1,8 @@
-﻿@page "/fetchdata"
+﻿@page "/employer"
 @attribute [Authorize]
 @inject HttpClient Http
 
-<PageTitle>Employers</PageTitle>
-
-<h1>Employers</h1>
-
-<p>This component demonstrates fetching employer data from the server.</p>
+<h3>Employer</h3>
 
 @if (employers == null)
 {
@@ -17,18 +13,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>UserId</th>
+                <th>Hours Worked</th>
+                <th>Hours Invoice</th>
+                <th>Hours Left</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var employer in employers)
             {
                 <tr>
-                    <td>@employer.Id</td>
                     <td>@employer.Name</td>
-                    <td>@employer.UserId</td>
+                    <td>100</td>
+                    <td>80</td>
+                    <td>20</td>
                 </tr>
             }
         </tbody>

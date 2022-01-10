@@ -1,0 +1,61 @@
+﻿@page "/work"
+@attribute [Authorize]
+@inject HttpClient Http
+
+
+<h3>Work</h3>
+
+@if (employers == null)
+{
+    <p><em>Loading Employers...</em></p>
+}
+else
+{
+    <p>Selected Employer: @employers.First().Name</p>
+}
+
+@if (workEntries == null)
+{
+    <p><em>Loading Entries...</em></p>
+}
+else
+{
+    <p>Simple filtering here</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in workEntries)
+            {
+                <tr>
+                    <td>@entry.StartTime.ToString(timeFormat)</td>
+                    <td>@(entry.EndTime is null ? "-" : ((DateTime)entry.EndTime).ToString(timeFormat))</td>
+                    <td>@GetDurationString(entry.Duration)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string timeFormat = "dd/MM HH:mm";
+    private string durationFormat = "HH:mm";
+    private List<WorkEntryModel>? workEntries;
+    private List<EmployerModel>? employers;
+
+    private string GetDurationString(TimeSpan duration)
+    {
+        return new DateTime(duration.Ticks).ToString(durationFormat);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        employers = await Http.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
+        workEntries = await Http.GetFromJsonAsync<List<WorkEntryModel>>("api/Workentry/" + employers.First().Id);
+    }
+}
