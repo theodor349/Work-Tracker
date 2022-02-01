@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ApiAccess.Models;
+using ApiAccess.Services;
+using Microsoft.AspNetCore.Components;
 using Shared.Models;
+using Shared.Models.DTOs.WorkEntry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +15,35 @@ namespace ClientLibrary.Pages
     public partial class StartStopWorkPage : ComponentBase
     {
         [Inject]
-        public HttpClient _client { get; set; }
+        public IWorkTrackerApiService _api { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
-        public List<EmployerModelDTO>? Employers;
+        public List<EmployerDisplayModel>? Employers;
 
         protected override async Task OnInitializedAsync()
         {
-            var res = await _client.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
-            Employers = res.ConvertAll(x => new EmployerModelDTO()
-            {
-                Name = x.Name,
-                StartTime = DateTime.Now.AddHours(-1),
-                TimeThisMonth = new TimeSpan(20,16,0),
-            });
-
-            Employers.Add(new EmployerModelDTO()
-            {
-                Name = "Some other corporation",
-                StartTime = null,
-                TimeThisMonth = new TimeSpan(2, 46, 12),
-            });
+            Employers = await _api.Employers.GetEmployersAsync();
         }
 
         private void ResetDate()
         {
             Date = DateTime.Now;
             Console.WriteLine("Reset Date");
+        }
+
+        private async Task Start(Guid emplouerId)
+        {
+            var entry = await _api.WorkEntries.StartAsync(new StartWorkEntryDto() { EmployerId = emplouerId, Start = Date });
+            Employers.First(x => x.Id == emplouerId).StartTime = entry.StartTime;
+            StateHasChanged();
+        }
+
+        private async Task EndLatest(Guid emplouerId)
+        {
+            var entry = await _api.WorkEntries.EndLatestAsync(new EndLatestWorkEntryDto() { EmployerId = emplouerId, End = Date });
+            var employer = Employers.First(x => x.Id == emplouerId);
+            employer.StartTime = null;
+            employer.TimeThisMonth = employer.TimeThisMonth.Add(entry.Duration);
+            StateHasChanged();
         }
     }
 

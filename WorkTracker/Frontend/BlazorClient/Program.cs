@@ -1,3 +1,4 @@
+using ApiAccess.Services;
 using BlazorClient;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -20,5 +21,7 @@ builder.Services.AddMsalAuthentication(options =>
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
     options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetValue<string>("AzureAd:Scope"));
 });
+
+builder.Services.AddTransient<IWorkTrackerApiService, WorkTrackerApiService>();
 
 await builder.Build().RunAsync();

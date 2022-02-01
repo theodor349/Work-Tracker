@@ -33,11 +33,11 @@
                 @if (e.IsStarted)
                 {
                     <div>Started: @(((DateTime)e.StartTime).ToString("dd/MM/yyyy HH:mm"))</div>
-                    <RadzenButton class="w-100" Text="End"></RadzenButton>
+                    <RadzenButton class="w-100" Text="End" Click=@(args => EndLatest(e.Id))></RadzenButton>
                 }
                 else
                 {
-                    <RadzenButton class="w-100" Text="Start" ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
+                    <RadzenButton class="w-100" Text="Start"  Click=@(args => Start(e.Id)) ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
                 }
             </RadzenCard>
         }
