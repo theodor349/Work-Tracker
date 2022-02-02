@@ -1,6 +1,7 @@
 ﻿using ApiAccess.Models;
 using ApiAccess.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace ClientLibrary.Pages
     {
         [Inject]
         public IWorkTrackerApiService _api { get; set; }
+        [Inject]
+        public IJSRuntime _jsRuntime { get; set; }
         private CreateInvoiceModel request;
 
         private bool initialized = false;
@@ -43,7 +46,14 @@ namespace ClientLibrary.Pages
 
         private async Task Submit(CreateInvoiceModel model)
         {
-            await _api.Invoices.GetAauInvoiceAsync(model);
+            var start = new DateTime(model.Year, model.Month, 1);
+            var end = start.AddMonths(1).AddSeconds(-1);
+            string filename = "TimeSheet_" + start.ToString("yyyy-MM-dd") + "_" + end.ToString("yyyy-MM-dd") + ".doc";
+
+            var file = await _api.Invoices.GetAauInvoiceAsync(model);
+            Console.WriteLine("Calling Download");
+            await _jsRuntime.InvokeVoidAsync("downloadFile", "application/msword", file, filename);
+            Console.WriteLine("Downloaded");
             await Reset();
         }
 

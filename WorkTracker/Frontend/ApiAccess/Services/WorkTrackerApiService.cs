@@ -35,7 +35,7 @@ namespace ApiAccess.Services
 
     public interface IInvoiceService
     {
-        Task GetAauInvoiceAsync(CreateInvoiceModel model);
+        Task<string> GetAauInvoiceAsync(CreateInvoiceModel model);
     }
     public class InvoiceService : IInvoiceService
     {
@@ -48,7 +48,7 @@ namespace ApiAccess.Services
             _api = api;
         }
 
-        public async Task GetAauInvoiceAsync(CreateInvoiceModel model)
+        public async Task<string> GetAauInvoiceAsync(CreateInvoiceModel model)
         {
             var start = new DateTime(model.Year, model.Month, 1);
             var end = start.AddMonths(1).AddSeconds(-1);
@@ -59,11 +59,8 @@ namespace ApiAccess.Services
                 "&extraHours=" + (model.ExtraHours + (double)model.ExtraMinutes / 60) +
                 "&ShouldAddInvoice=" + model.ShouldAddInvoice
             );
-            Console.WriteLine("Export");
-            var file = await response.Content.ReadFromJsonAsync<FileStream>();
-            Console.WriteLine("Retrived File");
-            Console.WriteLine(file.Length);
-            Console.WriteLine(file);
+            var file = await response.Content.ReadAsStringAsync();
+            return file;
         }
     }
 
