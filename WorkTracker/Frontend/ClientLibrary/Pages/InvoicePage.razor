@@ -1,0 +1,96 @@
+﻿<h3>Invoice</h3>
+
+<RadzenCard>
+    @if (initialized)
+    {
+        <h3>Create Invoice</h3>
+        <RadzenTemplateForm Data="@request" Submit="@((CreateInvoiceModel args) => { Submit(args); })">
+            <div class="row">
+                <RadzenFieldset Text="Invoice Info">
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Employer" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="request.EmployerId" AllowClear="true" Placeholder="Select something" Data="@employers" style="width: 100%;" TextProperty="Name" ValueProperty="Id" Name="Name" Change=Update/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Year" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="request.Year" AllowClear="true" Placeholder="Select something" Data="@years" style="width: 100%;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Month" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown @bind-Value="request.Month" AllowClear="true" Placeholder="Select something" Data="@months" style="width: 100%;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Save Invoice" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenSwitch @bind-Value=@request.ShouldAddInvoice />
+                        </div>
+                    </div>
+                </RadzenFieldset>
+                @if(employerBalance != null)
+                {
+                    <RadzenFieldset Text="Month Info">
+                        <div class="row">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Worked time" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenLabel Text="@GetDurationString(selectedEmployer.TimeThisMonth)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Time not Invoiced" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenLabel Text="@GetDurationString(employerBalance.Balance)" />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                    <RadzenFieldset Text="Invoice Hour Info">
+                        <div class="row">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Extra Time" />
+                            </div>
+                            <div class="col-md-4">
+                                <RadzenNumeric TValue="int" Min="0" Max="@((int)employerBalance.Balance.TotalHours)" Class="w-100" @bind-Value=request.ExtraHours />
+                            </div>
+                            <div class="col-md-4">
+                                <RadzenNumeric TValue="int" Min="0" Max="@(employerBalance.Balance.Minutes)" Class="w-100" @bind-Value=request.ExtraMinutes />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Max Time" />
+                            </div>
+                            <div class="col-md-4">
+                                <RadzenNumeric TValue="int" Min="0" Class="w-100" @bind-Value=request.MaxMonthlyHours />
+                            </div>
+                            <div class="col-md-4">
+                                <RadzenNumeric TValue="int" Min="0" Max="60" Class="w-100" @bind-Value=request.MaxMonthlyMinutes />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                }
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Create" />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    }
+</RadzenCard>

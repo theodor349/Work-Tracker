@@ -105,7 +105,6 @@ namespace WorkTracker.Handlers
 
         internal override Task<Unit> HandleTransaction(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
-            Console.WriteLine("Registering " + request.TotalTime.TotalHours + " hours for month " + request.CreationDate.ToString("MMMM"));
             return Task.FromResult(new Unit());
         }
     }

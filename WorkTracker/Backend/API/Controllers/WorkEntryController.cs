@@ -40,6 +40,19 @@ namespace API.Controllers
             return data;
         }
 
+        // GET: api/<WorkEntryController>
+        [HttpGet("{employerId}/TimeBetween")]
+        public async Task<TimeSpan> GetTimeBetween(Guid employerId, DateTime start, DateTime end)
+        {
+            var data = await _mediator.Send(new GetWorkEntryBetweenListQuery(employerId, UserId, start, end));
+            var time = new TimeSpan(0);
+            foreach (var entry in data)
+            {
+                time = time.Add(entry.Duration);
+            }
+            return time;
+        }
+
         // GET api/<WorkEntryController>/5/Latests
         [HttpGet("{employerId}/Latests")]
         public async Task<WorkEntryModel> GetLatests(Guid employerId)
@@ -50,7 +63,7 @@ namespace API.Controllers
 
         // POST api/<WorkEntryController>
         [HttpPost]
-        public async Task<WorkEntryModel> Start([FromBody] CreateWorkEntryDto value)
+        public async Task<WorkEntryModel> Create([FromBody] CreateWorkEntryDto value)
         {
             var data = await _mediator.Send(new CreateWorkEntryCommand(value.EmployerId, value.Start, value.End, UserId));
             return data;

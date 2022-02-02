@@ -33,9 +33,16 @@ namespace API.Controllers
 
         // GET api/<EmployerController>/5
         [HttpGet("{id}")]
-        public async Task<EmployerModel> Get(string id)
+        public async Task<EmployerModel> Get(Guid id)
         {
-            var data = await _mediator.Send(new GetEmployerByIdQuery(Guid.Parse(id), UserId));
+            var data = await _mediator.Send(new GetEmployerByIdQuery(id, UserId));
+            return data;
+        }
+
+        [HttpGet("{id}/Balance")]
+        public async Task<EmployerBalanace> Get(Guid id, DateTime beforeDate)
+        {
+            var data = await _mediator.Send(new GetEmployerBalanceQuery(id, UserId, beforeDate));
             return data;
         }
 

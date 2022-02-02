@@ -38,16 +38,29 @@ namespace API.Controllers
             return date;
         }
 
-        // GET: api/Invoice/AauTimeSheet/{employerId}
-        [HttpGet("AauTimeSheet/{employerId}")]
-        public async Task<FileContentResult> GetAauInvoice(Guid employerId, DateTime startDate, DateTime endDate, double maxMonthlyHours, double extraHours, bool ShouldAddInvoice)
+        // GET: api/Invoice/{employerId}/AauStudentProgrammerTimeSheet?
+        [HttpGet("{employerId}/AauStudentProgrammerTimeSheet")]
+        public async Task<string> GetAauInvoice(Guid employerId, DateTime startDate, DateTime endDate, double maxMonthlyHours, double extraHours, bool ShouldAddInvoice)
         {
             var filePath = await _mediator.Send(new GetAauTimeSheetQuery(employerId, UserId, startDate, endDate, TimeSpan.FromHours(maxMonthlyHours), TimeSpan.FromHours(extraHours), ShouldAddInvoice));
-            return File(
-                System.IO.File.ReadAllBytes(filePath),
-                "application/msword",
-                "TimeSheet_" + startDate.ToString("yyyy-MM-dd") + "_" + endDate.ToString("yyyy-MM-dd") + ".doc"
-                );
+            using (var fileInput = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                await fileInput.CopyToAsync(memoryStream);
+
+                var buffer = memoryStream.ToArray();
+                return Convert.ToBase64String(buffer);
+            }
         }
+        //[HttpGet("{employerId}/AauStudentProgrammerTimeSheet")]
+        //public async Task<FileContentResult> GetAauInvoice(Guid employerId, DateTime startDate, DateTime endDate, double maxMonthlyHours, double extraHours, bool ShouldAddInvoice)
+        //{
+        //    var filePath = await _mediator.Send(new GetAauTimeSheetQuery(employerId, UserId, startDate, endDate, TimeSpan.FromHours(maxMonthlyHours), TimeSpan.FromHours(extraHours), ShouldAddInvoice));
+        //    return File(
+        //        System.IO.File.ReadAllBytes(filePath),
+        //        "application/msword",
+        //        "TimeSheet_" + startDate.ToString("yyyy-MM-dd") + "_" + endDate.ToString("yyyy-MM-dd") + ".doc"
+        //        );
+        //}
     }
 }

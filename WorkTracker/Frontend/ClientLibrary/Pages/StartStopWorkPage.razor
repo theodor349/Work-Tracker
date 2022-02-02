@@ -1,0 +1,46 @@
+﻿<RadzenCard Style="max-width: 400px">
+
+<RadzenCard Style="max-width: 360px" class="mb-2">
+        
+        <div class="display-flex">
+            <div class="row mb-1">
+                <div class="col">
+                    <RadzenDatePicker @bind-Value=Date class="w-100" Style="min-width:120px" DateFormat="d"> </RadzenDatePicker>
+                </div>
+                <div class="col">
+                    <RadzenDatePicker @bind-Value=Date class="w-100" Style="min-width:120px" ShowTime="true" TimeOnly="true" DateFormat="HH:mm"></RadzenDatePicker>
+                </div>
+            </div>
+            <div class="mx-auto row">
+                <RadzenButton Text="Reset Time" Click=ResetDate></RadzenButton>
+            </div>
+        </div>
+</RadzenCard>
+
+<RadzenCard Style="display: flex; max-width: 360px">
+    @if(Employers is null)
+    {
+        <p>Loading ...</p>
+    }
+    else
+    {
+        @foreach(var e in Employers)
+        {
+            <RadzenCard Style="max-width: 360px; display:block" class="mb-2">
+                <div><b>@e.Name</b></div>
+                <div>Time this month: @((int)e.TimeThisMonth.TotalHours + ":" + e.TimeThisMonth.Minutes)</div>
+
+                @if (e.IsStarted)
+                {
+                    <div>Started: @(((DateTime)e.StartTime).ToString("dd/MM/yyyy HH:mm"))</div>
+                    <RadzenButton class="w-100" Text="End" Click=@(args => EndLatest(e.Id))></RadzenButton>
+                }
+                else
+                {
+                    <RadzenButton class="w-100" Text="Start"  Click=@(args => Start(e.Id)) ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
+                }
+            </RadzenCard>
+        }
+    }
+</RadzenCard>
+</RadzenCard>
