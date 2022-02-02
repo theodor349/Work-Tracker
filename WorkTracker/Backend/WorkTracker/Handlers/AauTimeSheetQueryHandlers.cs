@@ -25,7 +25,7 @@ namespace WorkTracker.Handlers
             request = new GetAauTimeSheetQuery(request.EmployerId, request.UserId, startDate, endDate, request.MaxMonthlyHours, request.ExtraHours, request.ShouldAddInvoice, request.IsAuthorized);
 
             await RequireAccessToEmployer(request);
-            await ChechValidityOfRequest(request);
+            await CheckValidityOfRequest(request);
 
             var dayEnties = await GenerateDayEntries(request, startDate, endDate);
             var filePath = await CreateFile(request, startDate, dayEnties);
@@ -72,7 +72,7 @@ namespace WorkTracker.Handlers
             return dayEnties;
         }
 
-        private async Task ChechValidityOfRequest(GetAauTimeSheetQuery request)
+        private async Task CheckValidityOfRequest(GetAauTimeSheetQuery request)
         {
             if (request.StartDate.Year != request.EndDate.Year && request.StartDate.Month != request.EndDate.Month)
                 throw new InvalidOperationException("Unable to create timesheet across multiple months");

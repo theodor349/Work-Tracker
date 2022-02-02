@@ -21,13 +21,12 @@ namespace ClientLibrary.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Employers = await _api.Employers.GetEmployersAsync();
+            Employers = await _api.Employers.GetDisplayModelsAsync();
         }
 
         private void ResetDate()
         {
             Date = DateTime.Now;
-            Console.WriteLine("Reset Date");
         }
 
         private async Task Start(Guid emplouerId)

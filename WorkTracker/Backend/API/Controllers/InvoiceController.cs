@@ -38,8 +38,8 @@ namespace API.Controllers
             return date;
         }
 
-        // GET: api/Invoice/AauTimeSheet/{employerId}
-        [HttpGet("AauTimeSheet/{employerId}")]
+        // GET: api/Invoice/{employerId}/AauStudentProgrammerTimeSheet?
+        [HttpGet("{employerId}/AauStudentProgrammerTimeSheet")]
         public async Task<FileContentResult> GetAauInvoice(Guid employerId, DateTime startDate, DateTime endDate, double maxMonthlyHours, double extraHours, bool ShouldAddInvoice)
         {
             var filePath = await _mediator.Send(new GetAauTimeSheetQuery(employerId, UserId, startDate, endDate, TimeSpan.FromHours(maxMonthlyHours), TimeSpan.FromHours(extraHours), ShouldAddInvoice));

@@ -15,23 +15,63 @@ namespace ApiAccess.Services
     {
         IEmployerService Employers { get; }
         IWorkEntryService WorkEntries { get; }
+        IInvoiceService Invoices { get; }
     }
 
     public class WorkTrackerApiService : IWorkTrackerApiService
     {
         public IWorkEntryService WorkEntries { get; }
         public IEmployerService Employers { get; }
+        public IInvoiceService Invoices { get; }
 
         public WorkTrackerApiService(HttpClient client)
         {
             WorkEntries = new WorkEntryService(client, this);
             Employers = new EmployerService(client, this);
+            Invoices = new InvoiceService(client, this);
+        }
+    }
+
+
+    public interface IInvoiceService
+    {
+        Task GetAauInvoiceAsync(CreateInvoiceModel model);
+    }
+    public class InvoiceService : IInvoiceService
+    {
+        private readonly HttpClient _client;
+        private readonly IWorkTrackerApiService _api;
+
+        public InvoiceService(HttpClient client, IWorkTrackerApiService api)
+        {
+            _client = client;
+            _api = api;
+        }
+
+        public async Task GetAauInvoiceAsync(CreateInvoiceModel model)
+        {
+            var start = new DateTime(model.Year, model.Month, 1);
+            var end = start.AddMonths(1).AddSeconds(-1);
+            var response = await _client.GetAsync("api/Invoice/" + model.EmployerId + "/AauStudentProgrammerTimeSheet" +
+                "?startDate=" + start +
+                "&endDate=" + end +
+                "&maxMonthlyHours=" + (model.MaxMonthlyHours + (double)model.MaxMonthlyMinutes / 60) +
+                "&extraHours=" + (model.ExtraHours + (double)model.ExtraMinutes / 60) +
+                "&ShouldAddInvoice=" + model.ShouldAddInvoice
+            );
+            Console.WriteLine("Export");
+            var file = await response.Content.ReadFromJsonAsync<FileStream>();
+            Console.WriteLine("Retrived File");
+            Console.WriteLine(file.Length);
+            Console.WriteLine(file);
         }
     }
 
     public interface IEmployerService
     {
-        Task<List<EmployerDisplayModel>> GetEmployersAsync();
+        Task<List<EmployerModel>> GetAllAsync();
+        Task<EmployerBalanace> GetBalanceAsync(Guid id, DateTime beforeDate);
+        Task<List<EmployerDisplayModel>> GetDisplayModelsAsync();
     }
     public class EmployerService : IEmployerService
     {
@@ -44,9 +84,19 @@ namespace ApiAccess.Services
             _api = api;
         }
 
-        public async Task<List<EmployerDisplayModel>> GetEmployersAsync()
+        public async Task<EmployerBalanace> GetBalanceAsync(Guid id, DateTime beforeDate)
         {
-            var employers = await _client.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
+            return await _client.GetFromJsonAsync<EmployerBalanace>("api/Employer/" + id + "/Balance?beforedate=" + beforeDate);
+        }
+
+        public async Task<List<EmployerModel>> GetAllAsync()
+        {
+            return await _client.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
+        }
+
+        public async Task<List<EmployerDisplayModel>> GetDisplayModelsAsync()
+        {
+            var employers = await GetAllAsync();
             var res = new List<EmployerDisplayModel>();
             foreach (var model in employers)
             {
@@ -85,7 +135,7 @@ namespace ApiAccess.Services
     public interface IWorkEntryService
     {
         Task<WorkEntryModel> EndLatestAsync(EndLatestWorkEntryDto model);
-        Task<WorkEntryModel> GetLatests(Guid employerId);
+        Task<WorkEntryModel?> GetLatests(Guid employerId);
         Task<TimeSpan> GetTimeBetweenAsync(Guid employerId, DateTime start, DateTime end);
         Task<WorkEntryModel> StartAsync(StartWorkEntryDto model);
     }
@@ -100,9 +150,17 @@ namespace ApiAccess.Services
             _api = api;
         }
 
-        public async Task<WorkEntryModel> GetLatests(Guid employerId)
+        public async Task<WorkEntryModel?> GetLatests(Guid employerId)
         {
-            return await _client.GetFromJsonAsync<WorkEntryModel>("api/WorkEntry/" + employerId + "/Latests");
+            var response = await _client.GetAsync("api/WorkEntry/" + employerId + "/Latests");
+            if(response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    return null;
+                else 
+                    return await response.Content.ReadFromJsonAsync<WorkEntryModel>();
+            }
+            return await _client.GetFromJsonAsync<WorkEntryModel?>("api/WorkEntry/" + employerId + "/Latests");
         }
 
         public async Task<TimeSpan> GetTimeBetweenAsync(Guid employerId, DateTime start, DateTime end)
