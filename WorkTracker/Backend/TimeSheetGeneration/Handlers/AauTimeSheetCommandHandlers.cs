@@ -33,22 +33,22 @@ public class GenerateAauTimeSheetCommandHandler : IRequestHandler<GenerateAauTim
         string templatePath = Path.Combine(_fileAccess.TemplatePath, templateName);
         string outputPath = Path.Combine(_fileAccess.TimeSheetsPath, Guid.NewGuid().ToString());
 
-        CreateWordDocTimeSheet(templatePath, outputPath, request.Enties);
+        CreateWordDocTimeSheet(templatePath, outputPath, request.Enties, new DateTime(request.Year, request.Month, 1));
 
         return Task.FromResult(outputPath);
     }
 
-    void CreateWordDocTimeSheet(string templatePath, string outputPath, List<DayEntry> entries)
+    void CreateWordDocTimeSheet(string templatePath, string outputPath, List<DayEntry> entries, DateTime timeSheetMonth)
     {
         var document = new Document(templatePath);
-        FillDocument(document, entries);
+        FillDocument(document, entries, timeSheetMonth);
         document.SaveToFile(outputPath, FileFormat.Doc);
     }
 
-    void FillDocument(Document document, List<DayEntry> entries)
+    void FillDocument(Document document, List<DayEntry> entries, DateTime timeSheetMonth)
     {
         var fields = document.Sections[0].Body.FormFields;
-        FillDates(fields);
+        FillDates(fields, timeSheetMonth);
         //FillPersonalInfo(fields);
         //FillSignature(document);
         FillHours(fields, entries);
@@ -102,9 +102,8 @@ public class GenerateAauTimeSheetCommandHandler : IRequestHandler<GenerateAauTim
         fields[cprIndex].Text = cprNumber;
     }
 
-    void FillDates(FormFieldCollection fields)
+    void FillDates(FormFieldCollection fields, DateTime timeSheetMonth)
     {
-        var timeSheetMonth = DateTime.Now;
         var creationDate = DateTime.Now;
 
         int monthIndex = 0;
