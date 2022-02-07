@@ -1,0 +1,43 @@
+﻿<RadzenCard class="mb-2">
+    <RadzenTemplateForm Data="@NewEmployerName" Submit="@((string args) => { CreateNewEmployer(args); })">
+        <div class="row">
+            <RadzenFieldset Text="Create Employer">
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Employer" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="NewEmployerName" Class="w-100" />
+                    </div>
+                </div>
+            </RadzenFieldset>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Create" />
+            </div>
+        </div>
+    </RadzenTemplateForm>
+</RadzenCard>
+
+<h3>Your Employers</h3>
+
+@foreach (var employer in Employers)
+{
+    <RadzenCard class="mb-2">
+        <h3 class="h5">@employer.Name</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div>Total Balance</div>
+                <b>@((int)(employer.Balance.Balance.TotalHours) + ":" + employer.Balance.Balance.Minutes)</b>
+            </div>
+            <div class="col-md-4">
+                <div>Time this month</div>
+                <b>@((int)employer.TimeThisMonth.TotalHours + ":" + employer.TimeThisMonth.Minutes)</b>
+            </div>
+            <div class="col-md-4">
+                <RadzenButton Icon="delete" Text="Delete" Click=@(args => DeleteEmployer(@employer.Id))/>
+            </div>
+        </div>
+    </RadzenCard>
+}

@@ -20,7 +20,7 @@
                             <RadzenLabel Text="Year" />
                         </div>
                         <div class="col-md-8">
-                            <RadzenDropDown @bind-Value="request.Year" AllowClear="true" Placeholder="Select something" Data="@years" style="width: 100%;"/>
+                            <RadzenDropDown @bind-Value="request.Year" AllowClear="true" Placeholder="Select something" Data="@years" style="width: 100%; Change=Update"/>
                         </div>
                     </div>
                     <div class="row">
@@ -28,7 +28,7 @@
                             <RadzenLabel Text="Month" />
                         </div>
                         <div class="col-md-8">
-                            <RadzenDropDown @bind-Value="request.Month" AllowClear="true" Placeholder="Select something" Data="@months" style="width: 100%;"/>
+                            <RadzenDropDown @bind-Value="request.Month" AllowClear="true" Placeholder="Select something" Data="@months" style="width: 100%;" Change=Update/>
                         </div>
                     </div>
                     <div class="row">

@@ -1,43 +1,4 @@
 ﻿@page "/employer"
 @attribute [Authorize]
-@inject HttpClient Http
 
-<h3>Employer</h3>
-
-@if (employers == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Hours Worked</th>
-                <th>Hours Invoice</th>
-                <th>Hours Left</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employer in employers)
-            {
-                <tr>
-                    <td>@employer.Name</td>
-                    <td>100</td>
-                    <td>80</td>
-                    <td>20</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-@code {
-    private List<EmployerModel>? employers;
-
-    protected override async Task OnInitializedAsync()
-    {
-        employers = await Http.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
-    }
-}
+<ClientLibrary.Pages.EmployerPage></ClientLibrary.Pages.EmployerPage>

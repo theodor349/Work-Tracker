@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "Frontend\Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientLibrary", "Frontend\ClientLibrary\ClientLibrary.csproj", "{233A9B51-E5AF-40E7-A2EE-4349663C1618}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAccess", "Frontend\ApiAccess\ApiAccess.csproj", "{4E687F00-C0B9-4D1A-8C72-79F3B8E8097E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiAccess", "Frontend\ApiAccess\ApiAccess.csproj", "{4E687F00-C0B9-4D1A-8C72-79F3B8E8097E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

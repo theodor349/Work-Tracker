@@ -66,6 +66,8 @@ namespace ApiAccess.Services
 
     public interface IEmployerService
     {
+        Task<EmployerModel> CreateEmployer(string employerName);
+        Task DeleteEmployer(Guid employerId);
         Task<List<EmployerModel>> GetAllAsync();
         Task<EmployerBalanace> GetBalanceAsync(Guid id, DateTime beforeDate);
         Task<List<EmployerDisplayModel>> GetDisplayModelsAsync();
@@ -79,6 +81,22 @@ namespace ApiAccess.Services
         {
             _client = client;
             _api = api;
+        }
+
+        public async Task DeleteEmployer(Guid employerId)
+        {
+            var response = await _client.DeleteAsync("api/Employer/" + employerId);
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException("Unable to delete Employer");
+        }
+
+        public async Task<EmployerModel> CreateEmployer(string employerName)
+        {
+            var response = await _client.PostAsJsonAsync("api/Employer", employerName);
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<EmployerModel>();
+            else
+                throw new HttpRequestException("Unable to create new Employer");
         }
 
         public async Task<EmployerBalanace> GetBalanceAsync(Guid id, DateTime beforeDate)
@@ -110,6 +128,7 @@ namespace ApiAccess.Services
             displayModel.Id = model.Id;
             await AddStartTime(model, displayModel);
             await AddTimeThisMonth(model, displayModel);
+            displayModel.Balance = await GetBalanceAsync(model.Id, DateTime.Now.AddMonths(1));
             return displayModel;
         }
 

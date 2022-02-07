@@ -33,6 +33,11 @@ namespace ClientLibrary.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            years = new List<int>();
+            for (int i = 2020; i < DateTime.Now.Year; i++)
+            {
+                years.Add(i);
+            }
             employers = await _api.Employers.GetDisplayModelsAsync();
             await Reset();
             initialized = true;

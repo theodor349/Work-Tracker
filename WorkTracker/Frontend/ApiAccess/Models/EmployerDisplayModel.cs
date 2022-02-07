@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace ApiAccess.Models
         public DateTime? StartTime { get; set; }
         public TimeSpan TimeThisMonth { get; set; }
         public bool IsStarted => StartTime is not null;
+        public EmployerBalanace Balance { get; set; }
     }
 }
