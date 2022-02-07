@@ -36,7 +36,7 @@
                 <b>@((int)employer.TimeThisMonth.TotalHours + ":" + employer.TimeThisMonth.Minutes)</b>
             </div>
             <div class="col-md-4">
-                <RadzenButton Icon="delete" Text="Delete" Click=@(args => DeleteEmployer(@employer.Id))/>
+                <RadzenButton Icon="delete" Text="Delete" Disabled="true" Click=@(() => OpenDeleteConfirmation(@employer))/>
             </div>
         </div>
     </RadzenCard>

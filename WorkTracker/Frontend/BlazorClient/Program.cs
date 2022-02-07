@@ -3,6 +3,7 @@ using BlazorClient;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -23,5 +24,6 @@ builder.Services.AddMsalAuthentication(options =>
 });
 
 builder.Services.AddTransient<IWorkTrackerApiService, WorkTrackerApiService>();
+builder.Services.AddTransient<DialogService>();
 
 await builder.Build().RunAsync();

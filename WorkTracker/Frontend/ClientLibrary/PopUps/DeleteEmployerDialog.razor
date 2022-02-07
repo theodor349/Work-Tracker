@@ -1,0 +1,23 @@
+﻿@using ApiAccess.Services
+@inject IWorkTrackerApiService _api;
+
+<h3>Delete @Employer.Name</h3>
+<b>Total balance is @((int)(Employer.Balance.Balance.TotalHours) + ":" + Employer.Balance.Balance.Minutes)</b>
+
+<div class="row">
+            <div class="col-md-6">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Text="Delete" Click=@(args => DeleteEmployer(@Employer.Id))/>
+            </div>
+            <div class="col-md-6">
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancle" Text="Cancle" Click=@(args => DeleteEmployer(@Employer.Id))/>
+            </div>
+        </div>
+@code {
+    [Parameter] public EmployerDisplayModel Employer { get; set; }
+
+    public async Task DeleteEmployer(Guid id)
+    {
+        await _api.Employers.DeleteEmployer(id);
+        StateHasChanged();
+    }
+}
