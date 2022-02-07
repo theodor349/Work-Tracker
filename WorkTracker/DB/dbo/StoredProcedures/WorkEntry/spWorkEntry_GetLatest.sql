@@ -4,6 +4,6 @@ AS
 BEGIN
 	SELECT TOP 1 * 
 	FROM [WorkEntry]
-	WHERE [EmployerId] = @employerId
+	WHERE [EmployerId] = @employerId AND [EndTime] IS NULL
 	ORDER BY [StartTime] DESC
 END
