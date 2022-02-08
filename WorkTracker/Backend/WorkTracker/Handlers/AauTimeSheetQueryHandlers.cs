@@ -128,7 +128,7 @@ namespace WorkTracker.Handlers
             foreach (var entry in workEntries)
             {
                 if (days.ContainsKey(entry.StartTime.Day))
-                    days[entry.StartTime.Day].Add(entry.Duration);
+                    days[entry.StartTime.Day] = days[entry.StartTime.Day].Add(entry.Duration);
                 else
                     days.Add(entry.StartTime.Day, entry.Duration);
             }

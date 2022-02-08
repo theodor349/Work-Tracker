@@ -14,7 +14,7 @@ namespace API.Controllers
     [ApiController]
     public class EmployerController : ControllerBase
     {
-        private Guid UserId => Guid.Parse("26ad541c-ec75-4b78-b784-2a4eb6d668e0");
+        private Guid UserId => new Guid(User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value); // Guid.Parse("26ad541c-ec75-4b78-b784-2a4eb6d668e0");
 
         private readonly IMediator _mediator;
 

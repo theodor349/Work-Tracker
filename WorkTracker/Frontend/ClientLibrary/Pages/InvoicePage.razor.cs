@@ -20,11 +20,11 @@ namespace ClientLibrary.Pages
         private CreateInvoiceModel request;
 
         private bool initialized = false;
-        private List<EmployerDisplayModel>? employers;
+        private List<EmployerDisplayModel>? employers = new List<EmployerDisplayModel>();
         private List<int> years = new List<int>();
         private List<int> months = new List<int>() { 1,2,3,4,5,6,7,8,9,10,11,12 };
         private EmployerBalanace? employerBalance;
-        private EmployerDisplayModel? selectedEmployer => employers.First(x => x.Id == request.EmployerId);
+        private EmployerDisplayModel? selectedEmployer => employers.FirstOrDefault(x => x.Id == request.EmployerId);
 
         private string GetDurationString(TimeSpan duration)
         {
@@ -40,12 +40,14 @@ namespace ClientLibrary.Pages
             }
             employers = await _api.Employers.GetDisplayModelsAsync();
             await Reset();
-            initialized = true;
+            if(employers.Count > 0)
+                initialized = true;
         }
 
         private async Task Update()
         {
-            employerBalance = await _api.Employers.GetBalanceAsync(request.EmployerId, new DateTime(request.Year, request.Month, 1));
+            if(employers.Count > 0)
+                employerBalance = await _api.Employers.GetBalanceAsync(request.EmployerId, new DateTime(request.Year, request.Month, 1));
             StateHasChanged();
         }
 
@@ -65,7 +67,8 @@ namespace ClientLibrary.Pages
         private async Task Reset()
         {
             var curr = DateTime.Now;
-            request = new CreateInvoiceModel(employers.First().Id, curr.Year, curr.Month, 34, 24, 0, 0, false);
+            if(employers.Count > 0)
+                request = new CreateInvoiceModel(employers.First().Id, curr.Year, curr.Month, 34, 24, 0, 0, false);
             await Update();
         }
     }

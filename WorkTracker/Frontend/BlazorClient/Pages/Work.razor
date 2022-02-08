@@ -5,7 +5,7 @@
 
 <h3>Work</h3>
 
-@if (employers == null)
+@if (employers.Count == 0)
 {
     <p><em>Loading Employers...</em></p>
 }
@@ -14,7 +14,7 @@ else
     <p>Selected Employer: @employers.First().Name</p>
 }
 
-@if (workEntries == null)
+@if (workEntries.Count == 0)
 {
     <p><em>Loading Entries...</em></p>
 }
@@ -45,8 +45,8 @@ else
 @code {
     private string timeFormat = "dd/MM HH:mm";
     private string durationFormat = "HH:mm";
-    private List<WorkEntryModel>? workEntries;
-    private List<EmployerModel>? employers;
+    private List<WorkEntryModel>? workEntries = new List<WorkEntryModel>();
+    private List<EmployerModel>? employers = new List<EmployerModel>();
 
     private string GetDurationString(TimeSpan duration)
     {
@@ -56,6 +56,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         employers = await Http.GetFromJsonAsync<List<EmployerModel>>("api/Employer");
-        workEntries = await Http.GetFromJsonAsync<List<WorkEntryModel>>("api/Workentry/" + employers.First().Id);
+        if(employers.Count > 0)
+            workEntries = await Http.GetFromJsonAsync<List<WorkEntryModel>>("api/Workentry/" + employers.First().Id);
     }
 }
