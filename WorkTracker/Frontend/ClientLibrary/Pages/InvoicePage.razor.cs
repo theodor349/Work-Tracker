@@ -3,6 +3,7 @@ using ApiAccess.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Shared.Models;
+using Shared.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

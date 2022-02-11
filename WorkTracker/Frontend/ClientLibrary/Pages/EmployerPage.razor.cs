@@ -4,6 +4,7 @@ using ClientLibrary.PopUps;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Shared.Models;
+using Shared.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

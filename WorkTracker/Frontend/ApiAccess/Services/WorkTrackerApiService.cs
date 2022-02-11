@@ -1,5 +1,6 @@
 ﻿using ApiAccess.Models;
 using Shared.Models;
+using Shared.Models.DTOs;
 using Shared.Models.DTOs.WorkEntry;
 using System;
 using System.Collections.Generic;
@@ -101,7 +102,7 @@ namespace ApiAccess.Services
 
         public async Task<EmployerBalanace> GetBalanceAsync(Guid id, DateTime beforeDate)
         {
-            return await _client.GetFromJsonAsync<EmployerBalanace>("api/Employer/" + id + "/Balance?beforedate=" + beforeDate);
+            return await _client.GetFromJsonAsync<EmployerBalanace>("api/Employer/Balance/" + id + "?beforedate=" + beforeDate);
         }
 
         public async Task<List<EmployerModel>> GetAllAsync()
@@ -111,14 +112,16 @@ namespace ApiAccess.Services
 
         public async Task<List<EmployerDisplayModel>> GetDisplayModelsAsync()
         {
-            var employers = await GetAllAsync();
-            var res = new List<EmployerDisplayModel>();
-            foreach (var model in employers)
-            {
-                var displayModel = await ConvertToDisplayModel(model);
-                res.Add(displayModel);
-            }
-            return res;
+            var beforeDate = DateTime.Now.AddMonths(1);
+            return await _client.GetFromJsonAsync<List<EmployerDisplayModel>>("api/Employer/Balance?beforedate=" + beforeDate);
+            //var employers = await GetAllAsync();
+            //var res = new List<EmployerDisplayModel>();
+            //foreach (var model in employers)
+            //{
+            //    var displayModel = await ConvertToDisplayModel(model);
+            //    res.Add(displayModel);
+            //}
+            //return res;
         }
 
         private async Task<EmployerDisplayModel> ConvertToDisplayModel(EmployerModel model)

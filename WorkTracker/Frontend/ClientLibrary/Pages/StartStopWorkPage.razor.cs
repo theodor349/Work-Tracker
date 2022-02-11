@@ -2,6 +2,7 @@
 using ApiAccess.Services;
 using Microsoft.AspNetCore.Components;
 using Shared.Models;
+using Shared.Models.DTOs;
 using Shared.Models.DTOs.WorkEntry;
 using System;
 using System.Collections.Generic;

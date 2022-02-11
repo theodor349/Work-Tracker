@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
+using Shared.Models.DTOs;
 using WorkTracker.Commands;
 using WorkTracker.Queries;
 
@@ -39,8 +40,45 @@ namespace API.Controllers
             return data;
         }
 
-        [HttpGet("{id}/Balance")]
-        public async Task<EmployerBalanace> Get(Guid id, DateTime beforeDate)
+        [HttpGet("Balance")]
+        public async Task<IEnumerable<EmployerDisplayModel>> GetBalance(DateTime beforeDate)
+        {
+            var res = new List<EmployerDisplayModel>();
+            var employers = await _mediator.Send(new GetEmployerListQuery(UserId));
+            foreach (var employer in employers)
+            {
+                var display = new EmployerDisplayModel();
+                display.Name = employer.Name;
+                display.Id = employer.Id;
+                await AddLatests(employer, display);
+                await AddTimeThisMonth(employer, display);
+                display.Balance = await _mediator.Send(new GetEmployerBalanceQuery(employer.Id, UserId, beforeDate));
+                res.Add(display);
+            }
+            return res;
+        }
+
+        private async Task AddLatests(EmployerModel employer, EmployerDisplayModel display)
+        {
+            var latest = await _mediator.Send(new GetLatestWorkEntryQuery(employer.Id, UserId, true));
+            if (latest != null && latest.EndTime == null)
+                display.StartTime = latest.StartTime;
+        }
+
+        private async Task AddTimeThisMonth(EmployerModel employer, EmployerDisplayModel display)
+        {
+            var currentTime = DateTime.Now;
+            var startDate = new DateTime(currentTime.Year, currentTime.Month, 1);
+            var endDate = new DateTime(currentTime.Year, currentTime.Month + 1, 1).AddSeconds(-1);
+            var entires = await _mediator.Send(new GetWorkEntryBetweenListQuery(employer.Id, UserId, startDate, endDate, true));
+            var time = new TimeSpan(0);
+            foreach (var entry in entires)
+                time = time.Add(entry.Duration);
+            display.TimeThisMonth = time;
+        }
+
+        [HttpGet("Balance/{id}")]
+        public async Task<EmployerBalanace> GetBalance(Guid id, DateTime beforeDate)
         {
             var data = await _mediator.Send(new GetEmployerBalanceQuery(id, UserId, beforeDate));
             return data;
