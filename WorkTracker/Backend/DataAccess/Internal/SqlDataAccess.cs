@@ -68,7 +68,6 @@ public abstract class SqlDataAccess : ISqlDataAccess, IDisposable
         if (_isClosed)
         {
             _logger.LogTrace("Transaction: Start");
-            Console.WriteLine("Transaction: Start");
             _connection = new SqlConnection(_connectionString);
             _connection.Open();
             _transaction = _connection.BeginTransaction();
@@ -82,7 +81,6 @@ public abstract class SqlDataAccess : ISqlDataAccess, IDisposable
         if (_isClosed)
         {
             _logger.LogTrace("Transaction: Commit");
-            Console.WriteLine("Transaction: Commit");
             _transaction?.Commit();
             _connection?.Close();
         }
@@ -91,7 +89,6 @@ public abstract class SqlDataAccess : ISqlDataAccess, IDisposable
     public void RollbackTransaction()
     {
         _logger.LogTrace("Transaction: Rollback");
-        Console.WriteLine("Transaction: Rollback");
         _transaction?.Rollback();
         _connection?.Close();
         _openConnections = 0;
