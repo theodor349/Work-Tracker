@@ -38,7 +38,12 @@ builder.Services.AddDataAccess();
 builder.Services.AddMediatR(typeof(TimeSheetGenerationMediatREntrypoint).Assembly);
 builder.Services.AddTimeSheetGeneration();
 
+
 var app = builder.Build();
+#if !DEBUG
+app.Urls.Clear();
+app.Urls.Add("http://0.0.0.0:5003");
+#endif
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -47,7 +52,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#if DEBUG
 app.UseHttpsRedirection();
+#endif
 
 app.UseCors(MyAllowSpecificOrigins);
 
