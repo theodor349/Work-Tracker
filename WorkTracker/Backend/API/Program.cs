@@ -7,7 +7,6 @@ using Shared;
 using TimeSheetGeneration;
 using WorkTracker;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // CORS
@@ -42,7 +41,7 @@ builder.Services.AddTimeSheetGeneration();
 var app = builder.Build();
 #if !DEBUG
 app.Urls.Clear();
-app.Urls.Add("http://0.0.0.0:5003");
+app.Urls.Add("http://0.0.0.0:" + builder.Configuration["Hosting:Port"]);
 #endif
 
 // Configure the HTTP request pipeline.
