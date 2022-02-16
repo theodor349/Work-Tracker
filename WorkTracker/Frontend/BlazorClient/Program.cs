@@ -23,6 +23,11 @@ builder.Services.AddMsalAuthentication(options =>
     options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration.GetValue<string>("AzureAd:Scope"));
 });
 
+Console.WriteLine("url: " + builder.Configuration.GetValue<string>("API:Url"));
+Console.WriteLine("Authority: " + builder.Configuration.GetValue<string>("AzureAd:Authority"));
+Console.WriteLine("ClientId: " + builder.Configuration.GetValue<string>("AzureAd:ClientId"));
+Console.WriteLine("Scope: " + builder.Configuration.GetValue<string>("AzureAd:Scope"));
+
 builder.Services.AddTransient<IWorkTrackerApiService, WorkTrackerApiService>();
 builder.Services.AddTransient<DialogService>();
 
