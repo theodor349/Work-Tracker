@@ -39,21 +39,18 @@ builder.Services.AddTimeSheetGeneration();
 
 
 var app = builder.Build();
-#if !DEBUG
 app.Urls.Clear();
 app.Urls.Add("http://0.0.0.0:" + builder.Configuration["Hosting:Port"]);
-#endif
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (bool.Parse(builder.Configuration["Hosting:UseHttps"]))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-#if DEBUG
-app.UseHttpsRedirection();
-#endif
+if(bool.Parse(builder.Configuration["Hosting:UseHttps"]))
+    app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
