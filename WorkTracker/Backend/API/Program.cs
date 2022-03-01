@@ -43,7 +43,7 @@ app.Urls.Clear();
 app.Urls.Add("http://0.0.0.0:" + builder.Configuration["Hosting:Port"]);
 
 // Configure the HTTP request pipeline.
-if (bool.Parse(builder.Configuration["Hosting:UseHttps"]))
+if (bool.Parse(builder.Configuration["Hosting:UseSwagger"]))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
